@@ -2,6 +2,7 @@ package practice.bootpay.order;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 
@@ -15,15 +16,26 @@ public class OrderService {
      * 주문 생성
      * @param form 주문 폼
      */
-    public void createdOrder(OrderForm form) {
-        Order order = Order.builder()
-                .itemName(form.getItemName())
-                .username(form.getUsername())
-                .price(form.getPrice())
-                .createdDate(LocalDateTime.now())
-                .orderStatus(OrderStatus.ORDER)
-                .build();
-
-        orderRepository.save(order);
+    public Order createdOrder(OrderForm form) {
+        Order order = Order.createOrder(form);
+        return orderRepository.save(order);
     }
+
+    /**
+     * 주문 삭제
+     * @param id order id
+     */
+    public void deleteOrder(Long id) {
+        orderRepository.deleteById(id);
+    }
+
+    /**
+     * 주문 정상 완료
+     * @param id order id
+     */
+    public void completeOrder(Long id) {
+        Order order = orderRepository.findById(id).orElseThrow();
+        order.completeOrder();
+    }
+
 }

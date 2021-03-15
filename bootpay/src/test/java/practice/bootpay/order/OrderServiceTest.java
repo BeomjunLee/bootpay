@@ -8,6 +8,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDateTime;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
@@ -33,10 +34,18 @@ class OrderServiceTest {
     void createOrder() {
         Order order = orderRepository.findById(1L).get();
 
-        Assertions.assertThat(order.getOrderStatus()).isEqualTo(OrderStatus.ORDER);
-        Assertions.assertThat(order.getItemName()).isEqualTo("책");
-        Assertions.assertThat(order.getUsername()).isEqualTo("이범준");
-        Assertions.assertThat(order.getPrice()).isEqualTo(10000);
+        assertThat(order.getOrderStatus()).isEqualTo(OrderStatus.ORDER);
+        assertThat(order.getItemName()).isEqualTo("책");
+        assertThat(order.getUsername()).isEqualTo("이범준");
+        assertThat(order.getPrice()).isEqualTo(10000);
+    }
+
+    @Test
+    void completeOrder() {
+        Order order = orderRepository.findById(1L).get();
+        order.completeOrder();
+
+        assertThat(order.getOrderStatus()).isEqualTo(OrderStatus.COMP);
     }
 
 }

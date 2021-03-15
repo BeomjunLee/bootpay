@@ -23,11 +23,31 @@ public class Order {
     private OrderStatus orderStatus;
 
     @Builder
-    public Order(String username, String itemName, int price, LocalDateTime createdDate, OrderStatus orderStatus) {
+    private Order(String username, String itemName, int price) {
         this.username = username;
         this.itemName = itemName;
         this.price = price;
-        this.createdDate = createdDate;
-        this.orderStatus = orderStatus;
+        this.createdDate = LocalDateTime.now();
+        this.orderStatus = OrderStatus.ORDER;
+    }
+
+    /**
+     * 주문 생성
+     * @param form 주문 폼
+     * @return Order entity
+     */
+    public static Order createOrder(OrderForm form) {
+        return Order.builder()
+                .itemName(form.getItemName())
+                .username(form.getUsername())
+                .price(form.getPrice())
+                .build();
+    }
+
+    /**
+     * 주문 정상적으로 완료
+     */
+    public void completeOrder() {
+        this.orderStatus = OrderStatus.COMP;
     }
 }
