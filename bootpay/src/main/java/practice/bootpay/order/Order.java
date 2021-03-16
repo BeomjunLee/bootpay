@@ -4,6 +4,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import practice.bootpay.item.Item;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -16,31 +17,31 @@ public class Order {
     @Column(name = "order_id")
     private Long id;
     private String username;
-    private String itemName;
-    private int price;
+
+    //주문당 한개의 상품 밖에 못산다고 가정 (test 용)
+    @ManyToOne
+    private Item item;
     private LocalDateTime createdDate;
+
     @Enumerated(value = EnumType.STRING)
     private OrderStatus orderStatus;
 
     @Builder
-    private Order(String username, String itemName, int price) {
+    private Order(String username, Item item) {
         this.username = username;
-        this.itemName = itemName;
-        this.price = price;
+        this.item = item;
         this.createdDate = LocalDateTime.now();
         this.orderStatus = OrderStatus.ORDER;
     }
 
     /**
      * 주문 생성
-     * @param form 주문 폼
      * @return Order entity
      */
-    public static Order createOrder(OrderForm form) {
+    public static Order createOrder(Item item, String username) {
         return Order.builder()
-                .itemName(form.getItemName())
-                .username(form.getUsername())
-                .price(form.getPrice())
+                .item(item)
+                .username(username)
                 .build();
     }
 
@@ -49,5 +50,12 @@ public class Order {
      */
     public void completeOrder() {
         this.orderStatus = OrderStatus.COMP;
+    }
+
+    /**
+     * 주문 실패
+     */
+    public void failOrder() {
+        this.orderStatus = OrderStatus.FAIL;
     }
 }

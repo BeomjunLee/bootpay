@@ -31,6 +31,9 @@ dependencies {
 	compile group: 'com.google.code.gson', name: 'gson', version: '+'
 	compile group: 'commons-io', name: 'commons-io', version: '+'
 
+	//objectMapper
+	implementation group: 'com.konghq', name: 'unirest-objectmapper-jackson', version: '4.0.0-RC1'
+
 	compileOnly 'org.projectlombok:lombok'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	runtimeOnly 'com.h2database:h2'
