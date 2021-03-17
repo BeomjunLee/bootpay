@@ -60,8 +60,8 @@ public class OrderController {
                              @RequestParam("receipt_id") String receipt_id) throws Exception {
         String getDataJson = "";
         BootPayOrderDto dto = null;
-        String rest_application_id = "604e6f1dd8c1bd002bf4c3a5";
-        String private_key = "HE6R1JhxXmyLZrZtVKa+M/tqI9IMFPZpSFprem6ls4o=";
+        String rest_application_id = "rest_application_id";
+        String private_key = "private_key";
 
         BootpayApi api = new BootpayApi(
                 rest_application_id,
